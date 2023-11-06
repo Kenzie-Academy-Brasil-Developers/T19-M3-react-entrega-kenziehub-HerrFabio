@@ -1,0 +1,22 @@
+.divBox {
+
+    gap: 0.15rem;
+
+    &>input {
+        display: flex;
+        height: 1.75rem;
+        width: 19.25rem;
+        padding: 0.5rem 1rem;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 1.375rem;
+        border-radius: 0.5rem;
+        background: var(--color-grey-3);
+        border: 0.25px solid var(--color-grey-0);
+    }
+
+    &>label{
+        width: 97%;
+    }
+}

@@ -1,0 +1,50 @@
+:root {
+
+    .title{
+
+        font-family: 'Inter', sans-serif;
+
+        &one {
+
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        &two{
+
+            font-weight: bold;
+            font-size: 16px;
+        }
+    }
+
+    //Headline
+
+    .headline {
+
+        font-family: 'Inter', sans-serif;
+        font-size: 0.75rem;
+
+        &one {
+
+            font-weight: 400;
+            
+
+        }
+
+        &two{
+
+            font-weight: bold;
+
+        }
+    
+    }
+
+    .paragraph {
+
+        font-family: 'Inter', sans-serif;
+        font-weight: 400;
+        font-size: 16px;
+    }
+
+}
+

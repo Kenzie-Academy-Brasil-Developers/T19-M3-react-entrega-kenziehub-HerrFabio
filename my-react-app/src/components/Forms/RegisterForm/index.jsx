@@ -5,21 +5,21 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { formSchema } from "../../form.schema";
 import { useState } from "react";
 import { api } from "../../../services/api";
+import Styles from "../RegisterForm/style.module.scss"
+
 
 export default () => {
-    const { register, handleSubmit, formState: { errors } } = useForm({
-
+    const { register, handleSubmit, formState: { errors, isDirty, isValid } } = useForm({
         resolver: zodResolver(formSchema),
     });
 
     const [loading, setloading] = useState(false);
-
     const navigate = useNavigate();
 
     const userRegister = async (formData) => {
         try {
             setloading(true);
-            console.log(formData)
+            console.log(formData);
             await api.post("/users", formData);
             navigate("/");
             alert("Cadastro realizado com sucesso!");
@@ -28,20 +28,30 @@ export default () => {
             if (error.response?.data === "Email alredy exists") {
                 alert("Usuário já cadastrado!");
             }
-
         } finally {
             setloading(false);
-        };
+        }
+    };
+
+    const moduleOptions = {
+        frontend_intro: "Primeiro módulo (Introdução ao Frontend)",
+        frontend_advanced: "Segundo módulo (Frontend Avançado)",
+        backend_intro: "Terceiro módulo (Introdução ao Backend)",
+        backend_advanced: "Quarto módulo (Backend Avançado)",
     };
 
     const submit = (formData) => {
-
         userRegister(formData);
-
     };
 
     return (
-        <form onSubmit={handleSubmit(submit)}>
+        <form className={Styles.formBox} onSubmit={handleSubmit(submit)}>
+
+            <div>
+                <h3 className="title one">Crie sua conta</h3>
+
+                <p className="headline one ">Rápido e grátis, vamos nessa</p>
+            </div>
 
             <Input
                 label="Nome"
@@ -52,52 +62,48 @@ export default () => {
             />
             {errors.name && <p>{errors.name.message}</p>}
 
-
-            <Input label="E-mail" type="email" placeholder="Digite seu E-mail"
-                {...register("email")}
-            />
+            <Input label="E-mail" type="email" placeholder="Digite seu E-mail" {...register("email")} />
             {errors.email && <p>{errors.email.message}</p>}
 
-
-            <Input label="Senha" type="password" placeholder="Digite sua senha"
-                {...register("password")}
-            />
+            <Input label="Senha" type="password" placeholder="Digite sua senha" {...register("password")} />
             {errors.password && <p>{errors.password.message}</p>}
 
-            <Input label="Confirmar Senha" type="password" placeholder="Digite sua senha novamente"
+            <Input
+                label="Confirmar Senha"
+                type="password"
+                placeholder="Digite sua senha novamente"
                 {...register("confirmPassword")}
             />
             {errors.confirmPassword && <p>{errors.confirmPassword.message}</p>}
 
-            <div> <label htmlFor="bio">Bio</label>
-                <textarea label="Bio" name="bio" placeholder="Fale sobre você"
-                    {...register("bio")}
-                >
-
-                </textarea>
+            <div>
+                <label htmlFor="bio">Bio</label>
+                <textarea label="Bio" name="bio" placeholder="Fale sobre você" {...register("bio")} />
                 {errors ? errors.bio?.message : null}
             </div>
 
-            <Input label="Opção de contato" type="contact" placeholder="Digite seu telefone"
-                {...register("contact")}
-                {...errors.contact && <p>{errors.contact.message}</p>}
-            />
+            <Input label="Opção de contato" type="contact" placeholder="Digite seu telefone" {...register("contact")} />
+            {errors.contact && <p>{errors.contact.message}</p>}
 
             <div>
                 <label htmlFor="course_module">Selecionar Módulo</label>
                 <select {...register("course_module")}>
                     <option value="">Selecione um módulo</option>
-                    <option value="frontend_intro">Primeiro módulo (Introdução ao Frontend)</option>
-                    <option value="frontend_advanced">Segundo módulo (Frontend Avançado)</option>
-                    <option value="backend_intro">Terceiro módulo (Introdução ao Backend)</option>
-                    <option value="backend_advanced">Quarto módulo (Backend Avançado)</option>
+                    {Object.entries(moduleOptions).map(([value, label]) => (
+                        <option key={value} value={value}>
+                            {label}
+                        </option>
+                    ))}
                 </select>
                 {errors ? errors.course_module?.message : null}
             </div>
 
-                <button onClick={() => navigate("/")}>Voltar</button>
-
-                <button type="submit" disabled={loading}>Cadastrar</button>
+            <button className="btn2 title one" onClick={() => navigate("/")}>Voltar</button>
+            <button className="btn title one" type="submit" disabled={loading}>
+                Cadastrar
+            </button>
         </form>
     );
 };
+
+

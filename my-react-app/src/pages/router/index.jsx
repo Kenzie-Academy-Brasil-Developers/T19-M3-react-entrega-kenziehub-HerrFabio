@@ -5,6 +5,8 @@ import {Dashboard} from "../dashboard";
 import {ErrorPage} from "../errorPage";
 
 export default () => {
+    
+
     return (
         <Routes>
             <Route path="/" element={<Login/>}/>
